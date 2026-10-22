@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { Reveal } from "./motion";
 
 type ButtonProps = {
   href: string;
@@ -15,7 +16,7 @@ const variants = {
 };
 
 export function Button({ href, children, variant = "primary", external }: ButtonProps) {
-  const cls = `inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-bold transition-colors ${variants[variant]}`;
+  const cls = `inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-bold transition duration-300 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] ${variants[variant]}`;
   return external ? (
     <a href={href} className={cls} target="_blank" rel="noopener noreferrer">{children}</a>
   ) : (
@@ -27,9 +28,17 @@ export function PageHero({ eyebrow, title, children }: { eyebrow: string; title:
   return (
     <section className="bg-navy-950 pb-16 pt-36 text-white">
       <div className="container-x">
-        <p className="font-display text-xs font-bold uppercase tracking-[0.3em] text-royal-400">{eyebrow}</p>
-        <h1 className="mt-3 max-w-3xl font-display text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">{title}</h1>
-        {children && <p className="mt-5 max-w-2xl text-lg leading-relaxed text-slate-300">{children}</p>}
+        <Reveal y={14}>
+          <p className="font-display text-xs font-bold uppercase tracking-[0.3em] text-royal-400">{eyebrow}</p>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <h1 className="mt-3 max-w-3xl font-display text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">{title}</h1>
+        </Reveal>
+        {children && (
+          <Reveal delay={0.22}>
+            <p className="mt-5 max-w-2xl text-lg leading-relaxed text-slate-300">{children}</p>
+          </Reveal>
+        )}
       </div>
     </section>
   );
@@ -45,13 +54,13 @@ export function Section({ title, eyebrow, children, action, tone = "light" }: {
   return (
     <section className={tone === "white" ? "bg-white py-16 sm:py-20" : "py-16 sm:py-20"}>
       <div className="container-x">
-        <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+        <Reveal className="mb-10 flex flex-wrap items-end justify-between gap-4">
           <div>
             {eyebrow && <p className="font-display text-xs font-bold uppercase tracking-[0.3em] text-royal-700">{eyebrow}</p>}
             <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight">{title}</h2>
           </div>
           {action}
-        </div>
+        </Reveal>
         {children}
       </div>
     </section>

@@ -16,11 +16,38 @@ const REQUIRED = ["name", "email", "college", "department", "year", "skills", "m
 const esc = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
+type Mail = {
+  to: string;
+  subject: string;
+  text: string;
+  html?: string;
+  replyTo?: string;
+  attachment?: { filename: string; content: Buffer };
+};
+
+/** Sends through the configured SMTP server (Brevo, Gmail, ...). Throws on failure. */
+async function sendMail(mail: Mail, fromName: string) {
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT || 587),
+    secure: Number(process.env.SMTP_PORT) === 465,
+    auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+  });
+  await transporter.sendMail({
+    from: `"${fromName}" <${process.env.SMTP_FROM}>`,
+    to: mail.to,
+    replyTo: mail.replyTo,
+    subject: mail.subject,
+    text: mail.text,
+    html: mail.html,
+    attachments: mail.attachment ? [mail.attachment] : [],
+  });
+}
+
 export async function POST(request: Request) {
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASS;
-  const to = process.env.APPLICATION_TO_EMAIL || user;
-  if (!user || !pass || !to) {
+  const { SMTP_HOST, SMTP_USER, SMTP_PASS, SMTP_FROM } = process.env;
+  const to = process.env.APPLICATION_TO_EMAIL || SMTP_FROM;
+  if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS || !SMTP_FROM || !to) {
     return NextResponse.json(
       { error: "Applications are not being accepted through the website yet (email delivery is not configured)." },
       { status: 503 },
@@ -63,20 +90,20 @@ export async function POST(request: Request) {
     ["Resume", attachment ? attachment.filename : "Not attached"],
   ];
 
-  const transporter = nodemailer.createTransport({ service: "gmail", auth: { user, pass } });
-
   try {
-    await transporter.sendMail({
-      from: `"${site.name} Website" <${user}>`,
-      to,
-      replyTo: email,
-      subject: `New internship application: ${role.title} – ${get("name")}`,
-      text: rows.map(([k, v]) => `${k}: ${v}`).join("\n"),
-      html: `<table cellpadding="6" style="border-collapse:collapse;font-family:Arial,sans-serif;font-size:14px">${rows
-        .map(([k, v]) => `<tr><td style="font-weight:bold;vertical-align:top">${esc(k)}</td><td style="white-space:pre-wrap">${esc(v)}</td></tr>`)
-        .join("")}</table>`,
-      attachments: attachment ? [attachment] : [],
-    });
+    await sendMail(
+      {
+        to,
+        replyTo: email,
+        subject: `New internship application: ${role.title} – ${get("name")}`,
+        text: rows.map(([k, v]) => `${k}: ${v}`).join("\n"),
+        html: `<table cellpadding="6" style="border-collapse:collapse;font-family:Arial,sans-serif;font-size:14px">${rows
+          .map(([k, v]) => `<tr><td style="font-weight:bold;vertical-align:top">${esc(k)}</td><td style="white-space:pre-wrap">${esc(v)}</td></tr>`)
+          .join("")}</table>`,
+        attachment,
+      },
+      `${site.name} Website`,
+    );
   } catch {
     return NextResponse.json(
       { error: "We could not deliver your application right now. Please try again later." },
@@ -86,16 +113,18 @@ export async function POST(request: Request) {
 
   // Confirmation to the candidate. The application is already delivered, so a failure here is not fatal.
   try {
-    await transporter.sendMail({
-      from: `"${site.name}" <${user}>`,
-      to: email,
-      replyTo: to,
-      subject: `We received your application – ${role.title}`,
-      text:
-        `Hi ${get("name")},\n\nThank you for applying for the ${role.title} position at ${site.name}. ` +
-        `We have received your application and our team will review it and contact you if you are shortlisted.\n\n` +
-        `If you have questions, reply to this email or write to ${site.email}.\n\nRegards,\n${site.name}\n${site.address}\n${site.phone}`,
-    });
+    await sendMail(
+      {
+        to: email,
+        replyTo: to,
+        subject: `We received your application – ${role.title}`,
+        text:
+          `Hi ${get("name")},\n\nThank you for applying for the ${role.title} position at ${site.name}. ` +
+          `We have received your application and our team will review it and contact you if you are shortlisted.\n\n` +
+          `If you have questions, reply to this email or write to ${site.email}.\n\nRegards,\n${site.name}\n${site.address}\n${site.phone}`,
+      },
+      site.name,
+    );
   } catch {
     /* intentionally ignored: applicant details are not logged */
   }

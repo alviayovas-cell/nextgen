@@ -1,4 +1,5 @@
 import { PageHero, Section, cardCls } from "@/components/ui";
+import { Stagger, StaggerItem } from "@/components/motion";
 import { site, team } from "@/data/company";
 
 const features = [
@@ -18,51 +19,61 @@ export default function AboutPage() {
       <PageHero eyebrow="About us" title="Learning That Moves You Forward">{site.description}</PageHero>
 
       <Section title="Mission & vision">
-        <div className="grid gap-6 md:grid-cols-2">
-          <div className={cardCls}>
-            <h3 className="font-display text-xl font-bold">Our mission</h3>
-            <p className="mt-2 text-navy-700">To deliver hands-on, industry-relevant training with Generative AI at its core, so students learn by doing.</p>
-          </div>
-          <div className={cardCls}>
-            <h3 className="font-display text-xl font-bold">Our vision</h3>
-            <p className="mt-2 text-navy-700">To help students across Tamil Nadu build the practical, future-ready skills that technology-driven careers require.</p>
-          </div>
-        </div>
+        <Stagger className="grid gap-6 md:grid-cols-2">
+          <StaggerItem>
+            <div className={cardCls}>
+              <h3 className="font-display text-xl font-bold">Our mission</h3>
+              <p className="mt-2 text-navy-700">To deliver hands-on, industry-relevant training with Generative AI at its core, so students learn by doing.</p>
+            </div>
+          </StaggerItem>
+          <StaggerItem>
+            <div className={cardCls}>
+              <h3 className="font-display text-xl font-bold">Our vision</h3>
+              <p className="mt-2 text-navy-700">To help students across Tamil Nadu build the practical, future-ready skills that technology-driven careers require.</p>
+            </div>
+          </StaggerItem>
+        </Stagger>
       </Section>
 
       <Section tone="white" title="What sets us apart">
-        <div className="grid gap-6 md:grid-cols-3">
+        <Stagger className="grid gap-6 md:grid-cols-3">
           {features.map((f) => (
-            <div key={f.t} className={cardCls}>
-              <h3 className="font-display text-lg font-bold">{f.t}</h3>
-              <p className="mt-2 text-sm text-navy-700">{f.d}</p>
-            </div>
+            <StaggerItem key={f.t}>
+              <div className={cardCls}>
+                <h3 className="font-display text-lg font-bold">{f.t}</h3>
+                <p className="mt-2 text-sm text-navy-700">{f.d}</p>
+              </div>
+            </StaggerItem>
           ))}
-        </div>
-        <ul className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        </Stagger>
+        <Stagger className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {why.map((w) => (
-            <li key={w} className="rounded-xl bg-navy-950 px-4 py-3 text-sm font-semibold text-white">
-              <span className="mr-2 text-royal-500" aria-hidden>✓</span>{w}
-            </li>
+            <StaggerItem key={w}>
+              <div className="rounded-xl bg-navy-950 px-4 py-3 text-sm font-semibold text-white">
+                <span className="mr-2 text-royal-500" aria-hidden>✓</span>{w}
+              </div>
+            </StaggerItem>
           ))}
-        </ul>
+        </Stagger>
       </Section>
 
       <Section title="Meet the team" eyebrow="The people behind NextGen Learners">
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <Stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {team.map((m) => (
-            <div key={m.name} className={`${cardCls} flex-row items-start gap-4`}>
-              <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-navy-950 font-display font-extrabold text-royal-500" aria-hidden>
-                {m.name.split(" ").map((p) => p[0]).slice(0, 2).join("")}
-              </span>
-              <div>
-                <h3 className="font-display font-bold">{m.name}</h3>
-                <p className="text-sm font-semibold text-royal-700">{m.role}</p>
-                <p className="mt-1 text-sm text-navy-700">{m.bio}</p>
+            <StaggerItem key={m.name}>
+              <div className={`${cardCls} flex-row items-start gap-4`}>
+                <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-navy-950 font-display font-extrabold text-royal-500" aria-hidden>
+                  {m.name.split(" ").map((p) => p[0]).slice(0, 2).join("")}
+                </span>
+                <div>
+                  <h3 className="font-display font-bold">{m.name}</h3>
+                  <p className="text-sm font-semibold text-royal-700">{m.role}</p>
+                  <p className="mt-1 text-sm text-navy-700">{m.bio}</p>
+                </div>
               </div>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </Section>
     </>
   );

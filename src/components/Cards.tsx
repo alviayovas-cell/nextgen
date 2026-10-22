@@ -3,19 +3,22 @@ import Link from "next/link";
 import type { Project } from "@/data/projects";
 import type { Service } from "@/data/services";
 import type { Internship } from "@/data/internships";
+import { ImageReveal } from "./motion";
 import { Tag, cardCls } from "./ui";
 
 export function ProjectCard({ project }: { project: Project }) {
   return (
-    <article className="flex flex-col overflow-hidden rounded-2xl border border-navy-900/10 bg-white shadow-lift">
+    <article className="group flex flex-col overflow-hidden rounded-2xl border border-navy-900/10 bg-white shadow-lift transition-transform duration-300 hover:-translate-y-1">
       {project.image ? (
-        <Image
-          src={project.image}
-          alt={project.title}
-          width={800}
-          height={500}
-          className="aspect-[16/10] w-full object-cover"
-        />
+        <ImageReveal>
+          <Image
+            src={project.image}
+            alt={project.title}
+            width={800}
+            height={500}
+            className="aspect-[16/10] w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+        </ImageReveal>
       ) : (
         <div className="flex aspect-[16/10] items-center justify-center bg-navy-950 font-display text-2xl font-extrabold text-royal-500" aria-hidden>
           {project.title.split(" ").map((w) => w[0]).slice(0, 2).join("")}
