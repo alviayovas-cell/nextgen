@@ -90,7 +90,7 @@ export default function ApplyForm({ slug, title }: { slug: string; title: string
         </FieldBase>
       </div>
       <div className="sm:col-span-2">
-        <FieldBase errors={fieldErrors} id="resume" label="Resume (PDF or Word, max 5 MB)" required={false}>
+        <FieldBase errors={fieldErrors} id="resume" label="Resume (PDF or Word, max 4 MB)" required={false}>
           <input id="resume" name="resume" type="file" accept=".pdf,.doc,.docx" className={`${field} file:mr-4 file:rounded-full file:border-0 file:bg-royal-500 file:px-4 file:py-2 file:font-bold`} />
         </FieldBase>
       </div>

@@ -1,7 +1,11 @@
+import nodemailer from "nodemailer";
 import { NextResponse } from "next/server";
 import { internships } from "@/data/internships";
+import { site } from "@/data/company";
 
-const MAX_RESUME_BYTES = 5 * 1024 * 1024;
+export const runtime = "nodejs";
+
+const MAX_RESUME_BYTES = 4 * 1024 * 1024;
 const RESUME_TYPES = [
   "application/pdf",
   "application/msword",
@@ -9,11 +13,16 @@ const RESUME_TYPES = [
 ];
 const REQUIRED = ["name", "email", "college", "department", "year", "skills", "motivation"] as const;
 
+const esc = (s: string) =>
+  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
 export async function POST(request: Request) {
-  const endpoint = process.env.APPLICATION_FORM_ENDPOINT;
-  if (!endpoint) {
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASS;
+  const to = process.env.APPLICATION_TO_EMAIL || user;
+  if (!user || !pass || !to) {
     return NextResponse.json(
-      { error: "Applications are not being accepted through the website yet (no submission destination is configured)." },
+      { error: "Applications are not being accepted through the website yet (email delivery is not configured)." },
       { status: 503 },
     );
   }
@@ -21,37 +30,75 @@ export async function POST(request: Request) {
   const form = await request.formData().catch(() => null);
   if (!form) return NextResponse.json({ error: "Invalid form data." }, { status: 400 });
 
+  const get = (k: string) => String(form.get(k) ?? "").trim();
   const errors: Record<string, string> = {};
-  for (const key of REQUIRED) {
-    if (!String(form.get(key) ?? "").trim()) errors[key] = "This field is required.";
-  }
-  const email = String(form.get("email") ?? "").trim();
+  for (const key of REQUIRED) if (!get(key)) errors[key] = "This field is required.";
+  const email = get("email");
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.email = "Enter a valid email address.";
-  const slug = String(form.get("internship") ?? "");
-  if (!internships.some((i) => i.slug === slug && i.published)) errors.internship = "Unknown internship.";
+  const role = internships.find((i) => i.slug === get("internship") && i.published);
+  if (!role) errors.internship = "Unknown internship.";
 
   const resume = form.get("resume");
-  const outgoing = new FormData();
-  for (const [key, value] of form.entries()) {
-    if (key !== "resume" && typeof value === "string") outgoing.append(key, value.trim());
-  }
+  let attachment: { filename: string; content: Buffer } | undefined;
   if (resume instanceof File && resume.size > 0) {
-    if (resume.size > MAX_RESUME_BYTES) errors.resume = "Resume must be 5 MB or smaller.";
+    if (resume.size > MAX_RESUME_BYTES) errors.resume = "Resume must be 4 MB or smaller.";
     else if (!RESUME_TYPES.includes(resume.type)) errors.resume = "Resume must be a PDF or Word document.";
-    else outgoing.append("resume", resume, resume.name);
+    else attachment = { filename: resume.name, content: Buffer.from(await resume.arrayBuffer()) };
   }
 
-  if (Object.keys(errors).length) {
+  if (Object.keys(errors).length || !role) {
     return NextResponse.json({ error: "Please fix the highlighted fields.", fields: errors }, { status: 422 });
   }
 
+  const rows: [string, string][] = [
+    ["Internship", role.title],
+    ["Name", get("name")],
+    ["Email", email],
+    ["College", get("college")],
+    ["Department", get("department")],
+    ["Year of study", get("year")],
+    ["Skills", get("skills")],
+    ["Profile links", get("links") || "—"],
+    ["Motivation", get("motivation")],
+    ["Resume", attachment ? attachment.filename : "Not attached"],
+  ];
+
+  const transporter = nodemailer.createTransport({ service: "gmail", auth: { user, pass } });
+
   try {
-    const res = await fetch(endpoint, { method: "POST", body: outgoing, headers: { Accept: "application/json" } });
-    if (!res.ok) {
-      return NextResponse.json({ error: "The application service rejected the submission. Please try again later." }, { status: 502 });
-    }
-    return NextResponse.json({ ok: true });
+    await transporter.sendMail({
+      from: `"${site.name} Website" <${user}>`,
+      to,
+      replyTo: email,
+      subject: `New internship application: ${role.title} – ${get("name")}`,
+      text: rows.map(([k, v]) => `${k}: ${v}`).join("\n"),
+      html: `<table cellpadding="6" style="border-collapse:collapse;font-family:Arial,sans-serif;font-size:14px">${rows
+        .map(([k, v]) => `<tr><td style="font-weight:bold;vertical-align:top">${esc(k)}</td><td style="white-space:pre-wrap">${esc(v)}</td></tr>`)
+        .join("")}</table>`,
+      attachments: attachment ? [attachment] : [],
+    });
   } catch {
-    return NextResponse.json({ error: "Could not reach the application service. Please try again later." }, { status: 502 });
+    return NextResponse.json(
+      { error: "We could not deliver your application right now. Please try again later." },
+      { status: 502 },
+    );
   }
+
+  // Confirmation to the candidate. The application is already delivered, so a failure here is not fatal.
+  try {
+    await transporter.sendMail({
+      from: `"${site.name}" <${user}>`,
+      to: email,
+      replyTo: to,
+      subject: `We received your application – ${role.title}`,
+      text:
+        `Hi ${get("name")},\n\nThank you for applying for the ${role.title} position at ${site.name}. ` +
+        `We have received your application and our team will review it and contact you if you are shortlisted.\n\n` +
+        `If you have questions, reply to this email or write to ${site.email}.\n\nRegards,\n${site.name}\n${site.address}\n${site.phone}`,
+    });
+  } catch {
+    /* intentionally ignored: applicant details are not logged */
+  }
+
+  return NextResponse.json({ ok: true });
 }
