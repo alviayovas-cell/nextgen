@@ -13,15 +13,16 @@ export default function HomePage() {
       <section className="bg-navy-950 pb-20 pt-36 text-white">
         <div className="container-x grid items-center gap-12 lg:grid-cols-2">
           <div>
-            <p className="font-display text-xs font-bold uppercase tracking-[0.3em] text-royal-400">
-              Education &amp; Technology Training
+            <p className="inline-flex items-center gap-2 rounded-full border border-royal-500/40 bg-royal-500/10 px-4 py-1.5 font-display text-[11px] font-bold uppercase tracking-[0.22em] text-royal-400 sm:text-xs sm:tracking-[0.28em]">
+              <span className="size-1.5 rounded-full bg-royal-500" aria-hidden />
+              Official Company Portfolio
             </p>
             <h1 className="mt-4 font-display text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl">
               Empowering Students With <span className="text-royal-500">Future-Ready</span> Skills.
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-300">
-              Practical, industry-focused learning to help students build real-world skills. We are currently training
-              around 1,000 students in Generative AI.
+              Explore NEXTGENLEARNERS’ company profile, services, projects, and Web Development and App Development
+              internship opportunities.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button href="/services">Explore Services</Button>

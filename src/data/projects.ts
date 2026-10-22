@@ -36,18 +36,4 @@ export const projects: Project[] = [
     technologies: ["Generative AI", "Career guidance"],
     image: "/brand/learn3.jpeg",
   },
-  {
-    title: "Learner Dashboard Design",
-    slug: "learner-dashboard-design",
-    summary: "Learning dashboard concept showing progress, streaks and certificates, from the UI/UX program.",
-    technologies: ["Figma", "Design Systems"],
-    placeholder: true,
-  },
-  {
-    title: "Business Intelligence Dashboards",
-    slug: "business-intelligence-dashboards",
-    summary: "Interactive dashboards and data storytelling built in the Power BI program.",
-    technologies: ["Microsoft Power BI"],
-    placeholder: true,
-  },
 ];

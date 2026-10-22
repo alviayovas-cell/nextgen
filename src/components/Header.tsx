@@ -41,9 +41,16 @@ export default function Header() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-navy-950/95 backdrop-blur">
       <div className="container-x flex h-[72px] items-center justify-between">
-        <Link href="/" aria-label={`${site.name} home`} onClick={() => setOpen(false)}>
-          <Logo />
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link href="/" aria-label={`${site.name} home`} onClick={() => setOpen(false)}>
+            <Logo />
+          </Link>
+          <span className="hidden border-l border-white/15 pl-3 font-display text-[10px] font-bold uppercase tracking-[0.22em] text-royal-400 sm:block">
+            Company
+            <br />
+            Portfolio
+          </span>
+        </div>
 
         <nav aria-label="Primary" className="hidden items-center gap-8 lg:flex">
           {site.nav.map((item) => (
