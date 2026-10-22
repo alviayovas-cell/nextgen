@@ -58,14 +58,14 @@ export default function Header() {
             <Link href="/" aria-label={`${site.name} home`} onClick={() => setOpen(false)}>
               <Logo tone="dark" />
             </Link>
-            <span className="hidden border-l border-navy-900/15 pl-3 font-display text-[10px] font-bold uppercase leading-tight tracking-[0.22em] text-royal-700 md:block">
+            <span className="hidden border-l border-navy-900/15 pl-3 font-display text-[10px] font-bold uppercase leading-tight tracking-[0.22em] text-royal-700 xl:block">
               Company
               <br />
               Portfolio
             </span>
           </div>
 
-          <nav aria-label="Primary" className="hidden items-center gap-8 lg:flex">
+          <nav aria-label="Primary" className="hidden items-center gap-6 lg:flex xl:gap-8">
             {site.nav.map((item) => (
               <Link
                 key={item.href}
@@ -85,7 +85,7 @@ export default function Header() {
               href="/internships"
               className="hidden rounded-full bg-royal-500 px-5 py-3 text-sm font-bold text-navy-950 transition-colors hover:bg-royal-400 lg:inline-flex"
             >
-              Apply for Internship
+              Apply<span className="hidden xl:inline">&nbsp;for Internship</span>
             </Link>
             <button
               type="button"

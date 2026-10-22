@@ -18,14 +18,8 @@ export default function HomePage() {
         </Parallax>
         <div className="container-x relative grid items-center gap-12 lg:grid-cols-2">
           <div>
-            <Reveal y={14}>
-              <p className="inline-flex items-center gap-2 rounded-full border border-royal-500/40 bg-royal-500/10 px-4 py-1.5 font-display text-[11px] font-bold uppercase tracking-[0.22em] text-royal-400 sm:text-xs sm:tracking-[0.28em]">
-                <span className="size-1.5 rounded-full bg-royal-500" aria-hidden />
-                Official Company Portfolio
-              </p>
-            </Reveal>
-            <Reveal delay={0.12} y={30}>
-              <h1 className="mt-4 font-display text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl">
+            <Reveal y={30}>
+              <h1 className="font-display text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl">
                 Empowering Students With <span className="text-royal-500">Future-Ready</span> Skills.
               </h1>
             </Reveal>
