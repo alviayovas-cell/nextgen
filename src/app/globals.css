@@ -5,17 +5,18 @@
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-display: var(--font-jakarta), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
-  --color-navy-950: #0b0b0b;
+  --color-navy-950: #050505;
   --color-navy-900: #111111;
   --color-navy-850: #171717;
   --color-navy-800: #1e1e1e;
   --color-navy-700: #292929;
   --color-navy-600: #383838;
-  --color-royal-700: #c99700;
-  --color-royal-600: #d9a900;
-  --color-royal-500: #f5c400;
-  --color-royal-400: #ffd633;
-  --color-mist: #fffdf5;
+  /* Accent scale: orange on black. (Token names kept from the original yellow theme.) */
+  --color-royal-700: #c2410c;
+  --color-royal-600: #ea580c;
+  --color-royal-500: #f97316;
+  --color-royal-400: #fb923c;
+  --color-mist: #fff8f3;
 
   --shadow-lift: 0 2px 4px #1111110a, 0 20px 44px -12px #11111129;
 }

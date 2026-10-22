@@ -16,6 +16,10 @@ export default function HomePage() {
           <div aria-hidden className="ambient-blob absolute -left-24 top-10 size-[28rem] rounded-full bg-royal-500/15 blur-3xl" />
           <div aria-hidden className="ambient-blob ambient-blob-slow absolute -right-20 bottom-0 size-[24rem] rounded-full bg-royal-400/10 blur-3xl" />
         </Parallax>
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-[radial-gradient(ellipse_70%_100%_at_50%_100%,rgba(234,88,12,0.45),transparent_70%)]"
+        />
         <div className="container-x relative grid items-center gap-12 lg:grid-cols-2">
           <div>
             <Reveal y={30}>
