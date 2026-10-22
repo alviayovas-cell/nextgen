@@ -7,6 +7,8 @@ type ButtonProps = {
   children: ReactNode;
   variant?: "primary" | "outline" | "dark";
   external?: boolean;
+  /** Renders a plain download link for a file in /public. */
+  download?: boolean;
 };
 
 const variants = {
@@ -15,8 +17,18 @@ const variants = {
   dark: "bg-navy-900 text-white hover:bg-navy-700",
 };
 
-export function Button({ href, children, variant = "primary", external }: ButtonProps) {
+export function Button({ href, children, variant = "primary", external, download }: ButtonProps) {
   const cls = `inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-bold transition duration-300 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] ${variants[variant]}`;
+  if (download) {
+    return (
+      <a href={href} download className={`${cls} gap-2`}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+          <path d="M12 3v12m0 0l-4-4m4 4l4-4M4 20h16" />
+        </svg>
+        {children}
+      </a>
+    );
+  }
   return external ? (
     <a href={href} className={cls} target="_blank" rel="noopener noreferrer">{children}</a>
   ) : (

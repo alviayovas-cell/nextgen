@@ -38,6 +38,7 @@ export default function HomePage() {
             <Reveal delay={0.42}>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Button href="/services">Explore Services</Button>
+                <Button href="/brochure/NextGen-Learners-Brochure.pdf" variant="outline" download>Download Brochure</Button>
                 <Button href="/internships" variant="outline">Apply for Internship</Button>
               </div>
             </Reveal>
