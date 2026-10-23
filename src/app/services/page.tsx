@@ -6,8 +6,8 @@ import { courses, services } from "@/data/services";
 export default function ServicesPage() {
   return (
     <>
-      <PageHero eyebrow="Services" title="Training for students, professionals and teams">
-        Hands-on, industry-focused programs taught by experienced trainers.
+      <PageHero eyebrow="Services" title="IT, software, AI and training services">
+        From IT support, data and cloud to software, AI, digital marketing and skill development.
       </PageHero>
       <Section title="Training programs">
         <Stagger className="grid gap-6 md:grid-cols-3">

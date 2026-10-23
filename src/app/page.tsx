@@ -68,11 +68,13 @@ export default function HomePage() {
         </Reveal>
       </Section>
 
-      <Section tone="white" eyebrow="Services" title="How we help"
-        action={<Button href="/services" variant="dark">All services</Button>}>
+      <Section tone="white" eyebrow="Services" title="How we help">
         <Stagger className="grid gap-6 md:grid-cols-3">
-          {services.map((s, i) => <StaggerItem key={s.slug}><ServiceCard service={s} index={i} /></StaggerItem>)}
+          {services.slice(0, 6).map((s, i) => <StaggerItem key={s.slug}><ServiceCard service={s} index={i} /></StaggerItem>)}
         </Stagger>
+        <Reveal className="mt-10 flex justify-center">
+          <Button href="/services">View all services</Button>
+        </Reveal>
       </Section>
 
       <Section eyebrow="Featured projects" title="Learning by building"
