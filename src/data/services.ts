@@ -19,14 +19,52 @@ export const services: Service[] = [
     summary: "Short, focused courses for working professionals who want to advance quickly.",
     points: ["Evening and online batches", "Hands-on workshops", "Career guidance"],
   },
+  // The services below were added at the owner's request (titles are the owner's). Descriptions and bullet points
+  // are drafts for the owner to confirm. Corporate Training and Digital Marketing wording follows
+  // https://nextgen-learning-two.vercel.app/training and /courses.
   {
-    title: "Corporate Training",
+    title: "IT Support / Managed Services",
+    slug: "it-support-managed-services",
+    summary: "Reliable day-to-day IT support and managed services that keep your systems running smoothly.",
+    points: ["Helpdesk and technical support", "System monitoring and maintenance", "Ongoing managed IT"],
+  },
+  {
+    title: "Data & Business Intelligence",
+    slug: "data-business-intelligence",
+    summary: "Turn business data into clear dashboards and insights that support better decisions.",
+    points: ["Data analysis and reporting", "Interactive dashboards", "Business intelligence solutions"],
+  },
+  {
+    title: "Cloud & IT Infrastructure",
+    slug: "cloud-it-infrastructure",
+    summary: "Cloud and infrastructure solutions that are secure, scalable and built for your business.",
+    points: ["Cloud setup and migration", "Infrastructure planning", "Ongoing support"],
+  },
+  {
+    title: "Corporate Training & Skill Development",
     slug: "corporate-training",
     summary: "Custom training for companies and teams, including AI adoption and marketing transformation.",
     points: ["Tailored curriculum", "On-site or online delivery", "Team workshops"],
   },
-  // Added at the owner's request. Descriptions are drafts for the owner to confirm; web development and
-  // digital marketing wording follows the course descriptions on https://nextgen-learning-two.vercel.app/courses
+  {
+    title: "Digital Marketing & Growth",
+    slug: "digital-marketing",
+    summary: "SEO, social media marketing and digital advertising to help brands grow online.",
+    points: ["SEO", "Social media marketing", "Digital advertising"],
+  },
+  {
+    title: "AI & Automation Services",
+    slug: "ai-automation-services",
+    summary: "Practical AI and automation that save time and help teams work more efficiently.",
+    points: ["AI adoption support", "Workflow automation", "Generative AI solutions"],
+  },
+  {
+    title: "IT Software Development",
+    slug: "it-software-development",
+    summary: "Custom software built around your business needs, from planning to delivery.",
+    points: ["Custom software solutions", "Web and mobile applications", "Testing and support"],
+  },
+  // Added earlier at the owner's request.
   {
     title: "App Development",
     slug: "app-development",
@@ -38,12 +76,6 @@ export const services: Service[] = [
     slug: "web-development",
     summary: "Modern, responsive websites and web applications built to work on every device.",
     points: ["Responsive websites", "Modern web technologies", "Hands-on, project-based work"],
-  },
-  {
-    title: "Digital Marketing",
-    slug: "digital-marketing",
-    summary: "SEO, social media marketing and digital advertising to help brands grow online.",
-    points: ["SEO", "Social media marketing", "Digital advertising"],
   },
 ];
 
