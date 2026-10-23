@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Button, Section } from "@/components/ui";
 import { InternshipCard, ProjectCard, ServiceCard } from "@/components/Cards";
 import { ImageReveal, Parallax, Reveal, Stagger, StaggerItem } from "@/components/motion";
+import NexoraLogo from "@/components/NexoraLogo";
 import { nexora, pillars } from "@/data/community";
 import { projects } from "@/data/projects";
 import { services } from "@/data/services";
@@ -83,15 +84,18 @@ export default function HomePage() {
 
       <section className="bg-navy-950 py-16 text-white sm:py-20">
         <div className="container-x">
-          <Reveal className="mb-10 flex flex-wrap items-end justify-between gap-4">
+          <Reveal className="mb-10 grid items-center gap-8 lg:grid-cols-[auto_1fr]">
+            <NexoraLogo className="size-44 sm:size-52" />
             <div>
               <p className="font-display text-xs font-bold uppercase tracking-[0.3em] text-royal-400">
                 Nexora · {nexora.label}
               </p>
               <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight">Student Community</h2>
               <p className="mt-4 max-w-2xl text-slate-300">{nexora.intro}</p>
+              <div className="mt-6">
+                <Button href="/community">Explore Student Community</Button>
+              </div>
             </div>
-            <Button href="/community">Explore Student Community</Button>
           </Reveal>
           <Stagger className="grid gap-6 md:grid-cols-3">
             {pillars.map((p, i) => (

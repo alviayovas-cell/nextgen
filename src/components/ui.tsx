@@ -36,10 +36,17 @@ export function Button({ href, children, variant = "primary", external, download
   );
 }
 
-export function PageHero({ eyebrow, title, children }: { eyebrow: string; title: string; children?: ReactNode }) {
+export function PageHero({ eyebrow, title, children, aside }: {
+  eyebrow: string;
+  title: string;
+  children?: ReactNode;
+  /** Optional visual shown beside the text on large screens (below it on small ones). */
+  aside?: ReactNode;
+}) {
   return (
     <section className="bg-navy-950 pb-16 pt-36 text-white">
-      <div className="container-x">
+      <div className={`container-x ${aside ? "grid items-center gap-10 lg:grid-cols-[1fr_auto]" : ""}`}>
+        <div>
         <Reveal y={14}>
           <p className="font-display text-xs font-bold uppercase tracking-[0.3em] text-royal-400">{eyebrow}</p>
         </Reveal>
@@ -51,6 +58,8 @@ export function PageHero({ eyebrow, title, children }: { eyebrow: string; title:
             <p className="mt-5 max-w-2xl text-lg leading-relaxed text-slate-300">{children}</p>
           </Reveal>
         )}
+        </div>
+        {aside && <Reveal delay={0.2} y={30}>{aside}</Reveal>}
       </div>
     </section>
   );

@@ -1,5 +1,6 @@
 import { Button, PageHero, Section, cardCls } from "@/components/ui";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion";
+import NexoraLogo from "@/components/NexoraLogo";
 import { hackathon, inside, nexora, pillars } from "@/data/community";
 import { site } from "@/data/company";
 
@@ -11,7 +12,11 @@ export default function CommunityPage() {
 
   return (
     <>
-      <PageHero eyebrow={`Nexora · ${nexora.label}`} title="Student Community">
+      <PageHero
+        eyebrow={`Nexora · ${nexora.label}`}
+        title="Student Community"
+        aside={<NexoraLogo priority className="size-56 sm:size-72 lg:size-80" />}
+      >
         {nexora.intro}
       </PageHero>
 
@@ -88,6 +93,7 @@ export default function CommunityPage() {
 
       <section className="py-16 text-center sm:py-20">
         <Reveal className="container-x">
+          <NexoraLogo className="mx-auto mb-6 size-24 rounded-2xl" />
           <h2 className="font-display text-3xl font-extrabold">Join Nexora today.</h2>
           <p className="mx-auto mt-3 max-w-xl text-navy-700">
             Ask how to become a member: call{" "}
