@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Button, Section } from "@/components/ui";
 import { InternshipCard, ProjectCard, ServiceCard } from "@/components/Cards";
 import { ImageReveal, Parallax, Reveal, Stagger, StaggerItem } from "@/components/motion";
+import { nexora, pillars } from "@/data/community";
 import { projects } from "@/data/projects";
 import { services } from "@/data/services";
 import { internships } from "@/data/internships";
@@ -79,6 +80,37 @@ export default function HomePage() {
           {projects.slice(0, 3).map((p) => <StaggerItem key={p.slug}><ProjectCard project={p} /></StaggerItem>)}
         </Stagger>
       </Section>
+
+      <section className="bg-navy-950 py-16 text-white sm:py-20">
+        <div className="container-x">
+          <Reveal className="mb-10 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="font-display text-xs font-bold uppercase tracking-[0.3em] text-royal-400">
+                Nexora · {nexora.label}
+              </p>
+              <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight">Student Community</h2>
+              <p className="mt-4 max-w-2xl text-slate-300">{nexora.intro}</p>
+            </div>
+            <Button href="/community">Explore Student Community</Button>
+          </Reveal>
+          <Stagger className="grid gap-6 md:grid-cols-3">
+            {pillars.map((p, i) => (
+              <StaggerItem key={p.title}>
+                <article className="rounded-2xl border border-white/10 bg-navy-850 p-6 transition-transform duration-300 hover:-translate-y-1 hover:border-royal-500/50">
+                  <span className="flex size-11 items-center justify-center rounded-xl bg-royal-500 font-display text-lg font-extrabold text-navy-950" aria-hidden>
+                    {i + 1}
+                  </span>
+                  <h3 className="mt-5 font-display text-xl font-bold uppercase tracking-wide">{p.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-300">{p.text}</p>
+                </article>
+              </StaggerItem>
+            ))}
+          </Stagger>
+          <Reveal delay={0.1}>
+            <p className="mt-8 text-center text-sm font-semibold text-royal-400">{nexora.audience}</p>
+          </Reveal>
+        </div>
+      </section>
 
       <Section tone="white" eyebrow="Internships" title="Start your career with us"
         action={<Button href="/internships">View all internships</Button>}>

@@ -25,6 +25,26 @@ export const services: Service[] = [
     summary: "Custom training for companies and teams, including AI adoption and marketing transformation.",
     points: ["Tailored curriculum", "On-site or online delivery", "Team workshops"],
   },
+  // Added at the owner's request. Descriptions are drafts for the owner to confirm; web development and
+  // digital marketing wording follows the course descriptions on https://nextgen-learning-two.vercel.app/courses
+  {
+    title: "App Development",
+    slug: "app-development",
+    summary: "Mobile and cross-platform app development, from first idea to a working product.",
+    points: ["Mobile app design and build", "Cross-platform apps", "Testing and launch support"],
+  },
+  {
+    title: "Web Development",
+    slug: "web-development",
+    summary: "Modern, responsive websites and web applications built to work on every device.",
+    points: ["Responsive websites", "Modern web technologies", "Hands-on, project-based work"],
+  },
+  {
+    title: "Digital Marketing",
+    slug: "digital-marketing",
+    summary: "SEO, social media marketing and digital advertising to help brands grow online.",
+    points: ["SEO", "Social media marketing", "Digital advertising"],
+  },
 ];
 
 export const courses = [
