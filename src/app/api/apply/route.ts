@@ -117,11 +117,18 @@ export async function POST(request: Request) {
       {
         to: email,
         replyTo: to,
-        subject: `We received your application – ${role.title}`,
+        subject: `You have successfully applied – ${role.title}`,
         text:
-          `Hi ${get("name")},\n\nThank you for applying for the ${role.title} position at ${site.name}. ` +
+          `Hi ${get("name")},\n\nYou have successfully applied for the ${role.title} internship at ${site.name}. ` +
           `We have received your application and our team will review it and contact you if you are shortlisted.\n\n` +
           `If you have questions, reply to this email or write to ${site.email}.\n\nRegards,\n${site.name}\n${site.address}\n${site.phone}`,
+        html:
+          `<div style="font-family:Arial,sans-serif;font-size:14px;line-height:1.6;color:#111">` +
+          `<p>Hi ${esc(get("name"))},</p>` +
+          `<p><strong>You have successfully applied</strong> for the <strong>${esc(role.title)}</strong> internship at ${esc(site.name)}.</p>` +
+          `<p>We have received your application and our team will review it and contact you if you are shortlisted.</p>` +
+          `<p>If you have questions, reply to this email or write to <a href="mailto:${esc(site.email)}">${esc(site.email)}</a>.</p>` +
+          `<p>Regards,<br>${esc(site.name)}<br>${esc(site.address)}<br>${esc(site.phone)}</p></div>`,
       },
       site.name,
     );
